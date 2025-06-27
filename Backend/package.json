@@ -1,0 +1,17 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "A Backend App - YouStreamPro ",
+  "keywords": [
+    "javascript",
+    "express",
+    "chai"
+  ],
+  "license": "ISC",
+  "author": "Divyesh Gangera",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
