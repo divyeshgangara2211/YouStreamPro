@@ -21,7 +21,7 @@ This is the backend service for **YouStreamPro**, providing APIs and core logic 
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/yourusername/youstreampro-backend.git
+    git clone https://github.com/divyeshgangara2211/YouStreamPro.git
     cd youstreampro-backend
     ```
 
