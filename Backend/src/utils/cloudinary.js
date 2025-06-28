@@ -22,7 +22,7 @@ const uploadOnCloudinary = async (localFilePath) => {
         console.log("This is Response Provided by cloudinary:", response);
         console.log("File is uploaded on cloudinary !! This is response URL:", response.url);
 
-        fs.unlinkSync( localFilePath );
+        // fs.unlinkSync( localFilePath );
         return response;
 
     } catch (error) {
