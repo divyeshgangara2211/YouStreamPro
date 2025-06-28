@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
-const userSchema = new mongoos.Schema( {
+const userSchema = new mongoose.Schema( {
         username : {
             type: String,
             required: true ,
@@ -33,7 +33,7 @@ const userSchema = new mongoos.Schema( {
         },
         watchHistory: [
             {
-                type: mongoos.Schema.Types.ObjectId,
+                type: mongoose.Schema.Types.ObjectId,
                 ref : "Video"
             }
         ],
@@ -41,7 +41,7 @@ const userSchema = new mongoos.Schema( {
             // Here we need to incrypt and decrypt this password
             type: String,
             required: [ true , 'Password is required !!' ],
-            minlength: [8, 'Password must be at least 8 characters long'],
+            minlength: [6, 'Password must be at least 6 characters long'],
         },
         refreshToken: {
             type: String

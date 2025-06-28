@@ -8,7 +8,7 @@ const storage = multer.diskStorage({
 
   filename: function (req, file, cb) {
     
-    console.log("File parameter in Multer :", file);
+    // console.log("File parameter in Multer :", file);
 
     cb(null, file.originalname);
   }

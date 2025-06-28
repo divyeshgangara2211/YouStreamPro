@@ -3,6 +3,7 @@
  import {ApiResponce} from "../utils/ApiResponce.js";
  import {uploadOnCloudinary} from "../utils/cloudinary.js";
  import {User} from "../models/user.model.js" ;
+ import { userValidationSchema } from "../utils/validateUser.js";
 
  const registerUser = asyncHandler( async (req,res ) => {
     //get user details from frontend
@@ -17,14 +18,20 @@
 
 
    const { fullName, email, username, password } = req.body ;
-   console.log("Email: ", email);
+   // console.log("req.body : " ,req.body);
+   // console.log("Email: ", email);
 
-   if(
-      [ fullName, email, username, password ].some( (field) => field?.trim() === "")
-   ){
-      throw new ApiError(400 , "All fields are required !!!");
-   }
+   // 1.Validate input with Joi
+    const { error } = userValidationSchema.validate({ fullName, email, username, password });
 
+    if (error) {
+      return res.status(400).json({ 
+         success: false, 
+         message: error.details[0].message  // shows error message like "Email must be valid"
+      });
+    }
+
+    // 2. Check existing user
    const existedUser = await User.findOne({
       $or : [ { username } , { email }]
    })
@@ -33,8 +40,14 @@
       throw new ApiError(409 , "User with email or username already exists")
    }
 
-   console.log("Req.files when check for file: " ,req.files);
-   console.log("Req.files.avatar when check for file: " ,req.files?.avatar);
+   if(
+      [ fullName, email, username, password ].some( (field) => field?.trim() === "")
+   ){
+      throw new ApiError(400 , "All fields are required !!!");
+   }
+
+   // console.log("Req.files when check for file: " ,req.files);
+   // console.log("Req.files.avatar when check for file: " ,req.files?.avatar);
 
    const avatarLocalPath = req.files?.avatar[0]?.path ;
    // const coverImageLocalPath = req.files?.coverImage[0]?.path ;
