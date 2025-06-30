@@ -7,9 +7,28 @@ export const verifyJWT = asyncHandler( async( req , _ , next ) => {
 
     try {
         // here we handle if user send info. from mobile so header.
-        const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer " , "");
-    
-        console.log("Token: " , token);
+        // const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer " , "");
+
+        const {accessToken} = req.cookies;
+        // console.log("Access token:" ,accessToken )
+        const authHeader = req.header("Authorization");
+
+        let headerToken = null;
+        if (authHeader && authHeader.startsWith("Bearer ")) {
+        headerToken = authHeader.replace("Bearer ", "").trim();
+        }
+
+        const token = accessToken || headerToken;
+
+        if (!token || typeof token !== "string" || token.trim() === "") {
+        throw new ApiError(401, "Unauthorized: Token missing ");
+        }
+
+
+        // console.log("Token: " , token);
+        // console.log("Authorization Header:", req.header("Authorization"));
+        // console.log("Cookies:", req.cookies);
+
         if(!token){
             throw new ApiError(401 , "Unauthorized request" );
         }

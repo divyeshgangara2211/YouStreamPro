@@ -66,7 +66,7 @@ userSchema.pre("save" , async function(next){
 userSchema.methods.isPasswordCorrect = async function(password){
 
     return await bcrypt.compare(password , this.password ); //2nd parameter is incrypted password
-}
+};
 
 // Access and Refresh Token both JWT token only differce is in thier uses.
 

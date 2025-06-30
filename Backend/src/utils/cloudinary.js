@@ -1,5 +1,6 @@
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs"; // this is file system provided by node.js for file hadling.
+import { ApiError } from "../utils/ApiError.js";
 
 cloudinary.config(
     {
@@ -32,4 +33,42 @@ const uploadOnCloudinary = async (localFilePath) => {
     }
 };
 
-export { uploadOnCloudinary }
+const deleteImageOnCloudinary = async(publicId) => {
+    try {
+
+        if (!publicId || typeof publicId !== "string") {
+            throw new ApiError(400, "Invalid public ID for Cloudinary deletion");
+        }
+
+        const result = await cloudinary.uploader.destroy(publicId);
+        console.log("Image Deleted successfully :", result);
+
+        return result ;
+        
+    } catch (error) {
+        throw new ApiError(400, error?.message || "Error While deleting image on cloudinary");
+    }
+};
+
+const getPublicIdFromUrl = (url) => {
+   try {
+      // Example: https://res.cloudinary.com/<cloud-name>/image/upload/v1623254365/foldername/filename.jpg
+
+      const parts = url.split("/");
+      const fileWithExtension = parts[parts.length - 1]; // filename.jpg with extension
+      const folder = parts[parts.length - 2]; // foldername
+      const fileName = fileWithExtension.split(".")[0]; // filename without extension
+
+      return `${folder}/${fileName}`; // foldername/filename
+
+   } catch (error) {
+      console.error("Failed to extract public_id:", error);
+      return null;
+   }
+};
+
+export { 
+    uploadOnCloudinary,
+    deleteImageOnCloudinary,
+    getPublicIdFromUrl,
+ }
