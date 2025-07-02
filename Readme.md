@@ -9,6 +9,13 @@ YouStreamPro is a powerful streaming management tool designed to simplify and en
 - Customizable overlays and alerts
 - Stream scheduling and management
 
+## Project Model
+
+You can view the system design/model for YouStreamPro here:  
+[Eraser Model Workspace](https://app.eraser.io/workspace/WoERn6ttsXm9kcMNwYD5?origin=)
+
+This model provides a visual overview of the architecture and main components of the project.
+
 ## Installation
 
 ```bash
@@ -23,7 +30,7 @@ npm install
 npm start
 ```
 
-Open your browser and navigate to `http://localhost:3000`.
+Open your browser and navigate to `http://localhost:8000`.
 
 ## Contributing
 
