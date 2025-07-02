@@ -12,6 +12,7 @@ import {User} from "../models/user.model.js" ;
 import {  userValidationSchema } from "../utils/registerValidateSchema.js";
 import { loginValidationSchema } from "../utils/loginValidationSchema.js" ;
 import jwt from "jsonwebtoken" ;
+import mongoose from "mongoose";
 
 const registerUser = asyncHandler( async (req,res ) => {
     //get user details from frontend
@@ -461,6 +462,157 @@ const updateUserCoverImage = asyncHandler(async(req , res) => {
       );
 });
 
+const getUserChannelProfile  = asyncHandler( async(req , res) => {
+   const { username } = req.params ;
+
+   if( !username?.trim()){
+      throw new ApiError( 400 , "username is missing in url ")
+   }
+
+   //  Now we select channel based on username and calculate subscriber and subscriedTo
+   // Pipeline always return array and mostly in this array first object are important.
+   const channel = await User.aggregate([
+      {
+         $match : {
+            username : username?.toLowerCase()
+         }
+      },
+      {
+         // Now we get channel and now calculate subscriber.
+         $lookup:{
+            from: "subscriptions",
+            localField: "_id",
+            foreignField: "channel",
+            as: "subscribers"
+         }
+      },
+      {
+         // now we calculate subscribedTo means channel subscribed by users
+         $lookup: {
+            from: "subscriptions",
+            localField: "_id",
+            foreignField: "subscriber",
+            as: "subscribedTo"
+         }
+      },
+      {
+         // Now we calculate size means size of document selected in subscribers and subscribedTo.
+         $addFields: {
+            subscribersCount : {
+               $size : "subscribers"
+            },
+            channelsSubscribedToCount : {
+               $size : "subscribedTo"
+            }, 
+            // now we decided user is subscribed any channel or not based on isSubscribed. ( for frontend to show which button follow or subscribed)
+            
+            isSubscribed : {
+               $cond: {
+                  if : { $in : [req.user?._id , "$subscribers.subscriber"]} ,
+                  then : true ,
+                  else : false 
+               }
+            }
+
+         }
+      },
+      {
+         $project : {
+            fullName : 1 ,
+            username : 1 ,
+            email : 1 ,
+            avatar: 1,
+            coverImage: 1,
+            createdAt : 1,
+            subscribersCount : 1,
+            channelsSubscribedToCount : 1,
+            isSubscribed : 1
+         }
+      }
+   ]);
+
+   console.log( " Channel : " , channel );
+
+   if( !channel?.length ){
+      throw new ApiError(404 , "channel does not exists")
+   }
+
+   return res
+      .status(200)
+      .json( 
+         new ApiResponse(200 , channel[0] , "User channel fetched successfully")
+      )
+
+});
+
+
+// If we write req.user._id , we get "string" not perfect id , internally means behind scenes mongoose convert into object Id means Perfect Id.
+// req.user._id ==> give == 68616bcac5570a50d0c1b7a2
+// Mongoose convert it into => _id: ObjectId('68616bcac5570a50d0c1b7a2')
+
+const getWatchHistory = asyncHandler( async( req ,res ) => {
+   const user = await User.aggregate([
+      {
+         // here mongoose not work aggregation pipeline  code directly go .
+         // so we need create mongoose id manulally.
+
+         $match: {
+            _id : new mongoose.Types.ObjectId(req.user._id)
+         }
+      },
+      {
+         $lookup:{
+            from : "videos",
+            localField: "watchHistory",
+            foreignField : "_id",
+            as : "watchHistory",
+            pipeline : [
+               {
+                  $lookup : {
+                     from : "users",
+                     localField : "owner",
+                     foreignField : "_id",
+                     as : "owner",
+                     pipeline: [
+                        {
+                           $project : {
+                              fullName : 1,
+                              username: 1,
+                              avatar : 1,
+                              coverImage : 1,
+                              createdAt : 1
+                           }
+                        }
+                     ]
+                  }
+               },
+               {
+                  // Now we get owner in form of array , so we modify data structure and made it object by selecting first element of owner array. 
+                  $addFields : {
+                     owner : {
+                        // $first : "$owner"  OR
+                        $arrayElemAt : [ "$owner" , 0 ]
+                     }
+                  } 
+               }
+            ]
+         }
+      }
+   ]);
+
+   // now we get user array , so we return it's first object.
+
+   return res
+   .status(200)
+   .json( 
+      new ApiResponse(
+         200,
+         user[0].watchHistory,
+         "Watch history fetched successfully"
+      )
+   )
+});
+
 export { 
    registerUser,
    loginUser,
@@ -471,4 +623,6 @@ export {
    updateAccountDetails,
    updateUserAvatar,
    updateUserCoverImage,
+   getUserChannelProfile,
+   getWatchHistory
 }
