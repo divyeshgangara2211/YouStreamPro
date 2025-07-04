@@ -23,7 +23,9 @@ const getVideoComments = asyncHandler(async (req, res) => {
     const commentsAggregate =  await Video.aggregate([
         {   // 1. Match comments for specific video
             $match: {
-                video: new mongoose.Types.ObjectId(videoId)
+                // video: new mongoose.Types.ObjectId(videoId)
+                // new version not need "new" keyword
+                video: mongoose.Types.ObjectId(videoId)
             }
         },
         {   // 2. Lookup: likes on the comment
