@@ -23,6 +23,8 @@ import commentRouter from "./routes/comment.routes.js";
 import healthCheckRouter from "./routes/healthcheck.routes.js";
 import dashboardRouter from "./routes/dashboard.routes.js";
 import tweetRouter from "./routes/tweet.routes.js" ;
+import subscriptionRouter from "./routes/subscription.routes.js";
+import likeRouter from "./routes/like.routes.js";
 
 
 
@@ -33,6 +35,8 @@ app.use("/api/v1/comments", commentRouter);
 app.use("/api/v1/healthCheck" , healthCheckRouter);
 app.use("/api/v1/dashboard" , dashboardRouter);
 app.use("/api/v1/tweet" , tweetRouter);
+app.use("/api/v1/subscriptions" , subscriptionRouter);
+app.use("/api/v1/likes" , likeRouter);
 
 
 //Now URL create
