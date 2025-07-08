@@ -33,14 +33,20 @@ const uploadOnCloudinary = async (localFilePath) => {
     }
 };
 
-const deleteImageOnCloudinary = async(publicId) => {
+const deleteImageOnCloudinary = async(publicId , resource_type="image") => {
     try {
 
         if (!publicId || typeof publicId !== "string") {
             throw new ApiError(400, "Invalid public ID for Cloudinary deletion");
         }
 
-        const result = await cloudinary.uploader.destroy(publicId);
+        const result = await cloudinary.uploader.destroy(
+            publicId,
+            {
+                resource_type: `${resource_type}`
+            }
+        );
+
         console.log("Image Deleted successfully :", result);
 
         return result ;
