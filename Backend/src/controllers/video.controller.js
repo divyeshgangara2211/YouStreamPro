@@ -91,7 +91,12 @@ const getAllVideos = asyncHandler(async (req, res) => {
             }
         },
         {
-            // $first : "$ownerDetails"
+            // $addFields: {
+            //     ownerDetails: {
+            //         $first : "$ownerDetails"
+            //     }
+            // }
+            
             $unwind: "$ownerDetails"
         }
     );
