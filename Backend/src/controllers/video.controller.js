@@ -17,7 +17,100 @@ const getAllVideos = asyncHandler(async (req, res) => {
     // get all videos based on query, sort, pagination
     console.log("userId: ", userId);
 
-    
+    const pipeline = [] ;  // 2.Initialize MongoDB aggregation pipeline for filtering, searching, and joining
+
+
+    // To enable full-text search, we need to create a Search Index in MongoDB Atlas.
+    // This index tells MongoDB which fields to search in (like title and description).
+    // It helps make search results faster and more relevant by focusing only on specific fields.
+    // In our case, the index is named 'search-videos' and it targets the title and description fields.
+
+
+    // 🔍 3. Full Text Search with Atlas Search
+    // If search query is present, use Atlas Search index ('search-videos') 
+    // to match against 'title' and 'description' fields
+
+    if(query){
+        pipeline.push({
+            $search:{
+                index: "search-videos",
+                text: {
+                    query: query,
+                    path: ["title" , "description"]
+                }
+            }
+        });
+    }
+
+    //👤 4. Filter by userId if provided
+    if(userId){
+        if(!isValidObjectId(userId)){
+            throw new ApiError( 400 ,"Invalid userId");
+        }
+
+        pipeline.push({
+            $match:{
+                owner: mongoose.Types.ObjectId(userId)
+            }
+        });
+    }
+
+    // ✅ 5. Only Get Published Videos
+    // Only include videos that are published (isPublished = true)
+    pipeline.push({ $match : { isPublished: true }});
+
+    // 📊 6. Sort Videos
+    // Sort videos by selected field and order
+    // If not specified, default to newest first (createdAt descending)
+    if(sortBy && sortType){
+        pipeline.push({
+            $sort :{
+                [sortBy]: sortType === "asc" ? 1 : -1
+            }
+        });
+    }else{
+        pipeline.push({ $sort : { createdAt : -1}});
+    }
+
+    // 🔗 7. Join Owner Details from users Collection
+    pipeline.push(
+        {
+            $lookup: {
+                from: "users",
+                localField: "owner",
+                foreignField: "_id",
+                as: "ownerDetails",
+                pipeline: [
+                    {
+                        $project: {
+                            username: 1 ,
+                            "avatar.url": 1
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            // $first : "$ownerDetails"
+            $unwind: "$ownerDetails"
+        }
+    );
+
+    // 🔁 8. Apply Pagination using aggregatePaginate
+    // Apply pagination on the aggregation result using aggregatePaginate
+    const videoAggregate = await Video.aggregate(pipeline);
+    const options = {
+        page: parseInt(page,10),
+        limit: parseInt(limit,10),
+    }
+
+    const video = await Video.aggregatePaginate( videoAggregate , options );
+
+    // 📤 9. Send Final Response
+    return res
+        .status(200)
+        .json( new ApiResponse( 200 , video ,  "Videos fetched successfully" ));
+
 });
 
 
