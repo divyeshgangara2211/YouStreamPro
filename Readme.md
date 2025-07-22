@@ -1,75 +1,173 @@
-# YouStreamPro
+# 🎬 YouStreamPro Backend
 
-YouStreamPro is a scalable, feature-rich streaming management platform inspired by YouTube, designed to simplify and enhance live and on-demand video streaming experiences. The project combines a robust backend with a user-friendly interface, supporting multi-platform streaming, real-time analytics, and advanced content management.
+YouStreamPro Backend is the core server-side engine for a powerful and scalable video streaming platform, inspired by YouTube. Designed with modularity, performance, and security in mind, this backend system handles everything from user management to video uploads, playlists, subscriptions, analytics, and even micro-social features like tweets and comments.
 
-## Features
+Built using **Node.js**, **Express.js**, and **MongoDB**, it provides a robust RESTful API layer that connects seamlessly with the frontend, supports cloud storage (Cloudinary), and implements industry-standard best practices for authentication, validation, and error handling.
 
-- **Multi-Platform Streaming:** Stream to multiple platforms simultaneously.
-- **User Authentication & Authorization:** Secure JWT-based login, registration, and protected routes.
-- **Video Management:** Upload, stream, and manage videos with integrated cloud storage (Cloudinary).
-- **Playlists:** Create, update, and manage video playlists.
-- **Comments & Likes:** Add, edit, and delete comments; like/unlike videos and comments.
-- **Subscriptions:** Subscribe/unsubscribe to channels and manage user subscriptions.
-- **Analytics & Dashboard:** Real-time analytics for channels, videos, and user engagement.
-- **Customizable Overlays & Alerts:** Enhance streams with dynamic overlays and notifications.
-- **Stream Scheduling:** Schedule and manage upcoming streams.
-- **Profile Management:** Update user details, avatars, and cover images.
-- **Robust Error Handling:** Centralized error and response handling for consistent API output.
-- **Scalable Architecture:** Modular controllers, middleware, and models for easy maintenance and future expansion.
-- **Security:** Input validation, secure cookies, and best practices for API security.
-- **Logging:** Integrated request logging for monitoring and debugging.
+---
 
-## Project Model
+## 📌 Project Highlights
 
-You can view the system design/model for YouStreamPro here:  
+### 🔐 User Management
+- Secure **JWT-based authentication**
+- User registration, login, logout
+- Password reset with token-based email verification
+- Profile management: update avatar, cover image, bio, etc.
+- Watch history: tracks watched videos per user
+
+### 📹 Video Management
+- Upload and publish videos (stored in **Cloudinary**)
+- Edit or delete uploaded videos
+- Visibility control (publish/unpublish videos)
+- Advanced search, filtering, and pagination
+- Video streaming optimized with metadata
+
+### 🐦 Tweet Management *(Mini Social Feature)*
+- Create, update, delete tweets
+- View tweets by specific users
+- Enables short updates or content promotion by users
+
+### 📺 Playlist Management
+- Create custom playlists
+- Add or remove videos
+- View all playlists created by the user
+
+### 🔔 Subscription System
+- Subscribe or unsubscribe to channels
+- View list of subscribers and subscribed channels
+
+### ❤️ Like System
+- Like or unlike videos, tweets, and comments
+- Fetch all liked videos for a user
+
+### 💬 Comments
+- Add comments to videos
+- Edit and delete existing comments
+- Like comments for community engagement
+
+### 📊 Dashboard & Analytics
+- Real-time channel statistics
+  - Total videos
+  - Total views
+  - Total likes
+  - Total subscribers
+- Access uploaded video overview for channel owners
+
+### 🩺 Health Check Endpoint
+- `/health` route to verify server uptime and API status
+
+---
+
+## 🧪 Tech Stack
+
+| Layer         | Technology                       |
+|---------------|----------------------------------|
+| Language      | Node.js (JavaScript)             |
+| Framework     | Express.js                       |
+| Database      | MongoDB with Mongoose ODM        |
+| Authentication| JWT + Secure Cookies             |
+| Cloud Storage | Cloudinary (for video/images)    |
+| Validation    | Joi                              |
+| File Uploads  | Multer                           |
+| Logging       | Morgan                           |
+| Middleware    | Custom error/auth handlers       |
+
+---
+
+## 📁 Project Structure
+
+```
+src/
+  controllers/    # Route controllers for all resources
+  models/         # Mongoose models
+  routes/         # Express route definitions
+  middlewares/    # Custom middleware (auth, multer, etc.)
+  utils/          # Utility functions and helpers
+  db/             # Database connection logic
+  constants.js    # Project constants
+  app.js          # Express app setup
+  index.js        # Entry point
+public/           # Static files and uploads
+```
+
+
+## System Design
+
+View the system architecture and data model:  
 [Eraser Model Workspace](https://app.eraser.io/workspace/WoERn6ttsXm9kcMNwYD5?origin=)
 
-This model provides a visual overview of the architecture and main components of the project.
+## Getting Started
 
-## Tech Stack
+1. **Clone the repository:**
+    ```bash
+    git clone https://github.com/divyeshgangara2211/YouStreamPro.git
+    cd YouStreamPro/Backend
+    ```
 
-- **Backend:** Node.js, Express.js, MongoDB (Mongoose ODM)
-- **Authentication:** JWT (JSON Web Tokens)
-- **Cloud Storage:** Cloudinary
-- **Other:** Multer (file uploads), Morgan (logging), Joi (validation), CORS, Cookie-Parser
+2. **Install dependencies:**
+    ```bash
+    npm install
+    ```
 
-## Installation
+3. **Configure environment variables:**
+   - Create a `.env` file in the root directory.
+   - Add your Appwrite credentials:
+     ```
+        MONGO_URI=
+        JWT_SECRET=
+        COOKIE_SECRET=
+        CLOUDINARY_CLOUD_NAME=
+        CLOUDINARY_API_KEY=
+        CLOUDINARY_API_SECRET=
+     ```
 
-```bash
-git clone https://github.com/divyeshgangara2211/YouStreamPro.git
-cd YouStreamPro
-npm install
-```
+4. **Start Development Server:**
+    ```bash
+    npm start
+    ```
 
-## Usage
+5. **API Base URL:**  
+    ```
+    http://localhost:8000/api/v1/
+    ```
 
-```bash
-npm start
-```
 
-Open your browser and navigate to `http://localhost:8000`.
+## 📚 API Documentation
 
-## Folder Structure
+Full API details with routes and sample requests can be found here:  
+📄 [`docs/api.md`](./docs/api.md)
 
-```
-YouStreamPro/
-  Backend/
-    src/
-      controllers/
-      models/
-      routes/
-      middlewares/
-      utils/
-      db/
-      constants.js
-      app.js
-      index.js
-    public/
-  frontend/ (if applicable)
-  Readme.md
-```
+### Includes Endpoints For:
+- 🔐 **User Authentication**
+- 🎥 **Video Upload & Management**
+- 🐦 **Tweets**
+- 📂 **Playlists**
+- 👍 **Likes & Comments**
+- 🔔 **Subscriptions**
+- 📊 **Dashboard Analytics**
 
-## Contributing
+---
 
-Contributions are welcome! Please open issues or submit pull requests for improvements or new features.
+## 📬 Contact
 
+For questions, feedback, or collaboration inquiries:  
+📧 **Email:** [divyeshgangera22@gmail.com](mailto:divyeshgangera22@gmail.com)  
+🔗 **GitHub:** [github.com/divyeshgangera2211](https://github.com/divyeshgangera2211)
+
+---
+
+## 🤝 Contributing
+
+Contributions, issue reports, and feature requests are welcome!  
+Feel free to **fork the project**, create a **feature branch**, and submit a **pull request**.  
+Let’s build better, together! 🚀
+
+
+## License
+Copyright (c) 2025 Divyesh Gangera
+
+
+📬 Contact
+For questions, feedback, or collaboration inquiries:
+📧 Email: divyeshgangera22@gmail.com
+🔗 GitHub: github.com/divyeshgangera2211
