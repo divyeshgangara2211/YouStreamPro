@@ -1,4 +1,4 @@
-# 🎬 YouStreamPro Backend
+# 🎬 YouTube + Twitter Backend
 
 YouStreamPro Backend is the core server-side engine for a powerful and scalable video streaming platform, inspired by YouTube. Designed with modularity, performance, and security in mind, this backend system handles everything from user management to video uploads, playlists, subscriptions, analytics, and even micro-social features like tweets and comments.
 
@@ -152,7 +152,7 @@ Full API details with routes and sample requests can be found here:
 
 For questions, feedback, or collaboration inquiries:  
 📧 **Email:** [divyeshgangera22@gmail.com](mailto:divyeshgangera22@gmail.com)  
-🔗 **GitHub:** [github.com/divyeshgangera2211](https://github.com/divyeshgangera2211)
+🔗 **GitHub:** [github.com/divyeshgangera2211](https://github.com/divyeshgangara2211)
 
 ---
 
