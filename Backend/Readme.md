@@ -165,9 +165,3 @@ Let’s build better, together! 🚀
 
 ## License
 Copyright (c) 2025 Divyesh Gangera
-
-
-📬 Contact
-For questions, feedback, or collaboration inquiries:
-📧 Email: divyeshgangera22@gmail.com
-🔗 GitHub: github.com/divyeshgangera2211
