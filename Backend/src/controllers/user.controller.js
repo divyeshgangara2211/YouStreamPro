@@ -185,7 +185,7 @@ const loginUser = asyncHandler( async( req, res ) => {
 
    const loggedInUser = await User.findById(user._id).select( "-password -refreshToken");
 
-   // now create cookie make it only server side mofifiable.
+   // now create cookie make it only server side modifiable.
    const options = {
       httpOnly : true ,
       // secure: process.env.NODE_ENV === "production", // Only true in production
@@ -239,7 +239,7 @@ const logoutUser = asyncHandler( async( req , res ) => {
 
 const refreshAccessToken = asyncHandler( async( req ,res ) => {
 
-   // We take first yser's refresh token
+   // We take first user's refresh token
    const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken ;
 
    if( !incomingRefreshToken ){
@@ -368,7 +368,7 @@ const updateUserAvatar = asyncHandler(async(req , res) => {
    };
 
    const oldAvatarUrl  = existingUser.avatar ;
-   console.log("oldAvatarUrl: " , oldAvatarUrl);
+   // console.log("oldAvatarUrl: " , oldAvatarUrl);
 
    // 2. Upload new avatar
    const avatar = await uploadOnCloudinary(avatarLocalPath);
@@ -423,7 +423,8 @@ const updateUserCoverImage = asyncHandler(async(req , res) => {
    };
 
    const oldCoverImageUrl  = existingUser.coverImage ;
-   console.log("oldCoverImageUrl: " , oldCoverImageUrl);
+   // console.log("oldCoverImageUrl: " , oldCoverImageUrl);
+
    if(!oldCoverImageUrl){
       throw new ApiError(400 , "Has not old coverImage to delete !!")
    }
@@ -499,10 +500,10 @@ const getUserChannelProfile  = asyncHandler( async(req , res) => {
          // Now we calculate size means size of document selected in subscribers and subscribedTo.
          $addFields: {
             subscribersCount : {
-               $size : "subscribers"
+               $size : "$subscribers"
             },
             channelsSubscribedToCount : {
-               $size : "subscribedTo"
+               $size : "$subscribedTo"
             }, 
             // now we decided user is subscribed any channel or not based on isSubscribed. ( for frontend to show which button follow or subscribed)
             
@@ -531,7 +532,7 @@ const getUserChannelProfile  = asyncHandler( async(req , res) => {
       }
    ]);
 
-   console.log( " Channel : " , channel );
+   // console.log( " Channel : " , channel );
 
    if( !channel?.length ){
       throw new ApiError(404 , "channel does not exists")
@@ -603,14 +604,14 @@ const getWatchHistory = asyncHandler( async( req ,res ) => {
    // now we get user array , so we return it's first object.
 
    return res
-   .status(200)
-   .json( 
-      new ApiResponse(
-         200,
-         user[0].watchHistory,
-         "Watch history fetched successfully"
+      .status(200)
+      .json( 
+         new ApiResponse(
+            200,
+            user[0].watchHistory,
+            "Watch history fetched successfully"
+         )
       )
-   )
 });
 
 export { 

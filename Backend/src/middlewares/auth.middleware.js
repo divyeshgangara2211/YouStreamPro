@@ -33,7 +33,7 @@ export const verifyJWT = asyncHandler( async( req , _ , next ) => {
             throw new ApiError(401 , "Unauthorized request" );
         }
     
-        const decodedTokenInfo = await jwt.verify(token , process.env.ACCESS_TOKEN_SECRET );
+        const decodedTokenInfo = jwt.verify(token , process.env.ACCESS_TOKEN_SECRET );
     
         // when we generate access token , we provide _id in it. so now we get and get user info.
     

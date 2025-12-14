@@ -21,7 +21,7 @@ const uploadOnCloudinary = async (localFilePath) => {
 
         // file has been uploaded successfull
         // console.log("This is Response Provided by cloudinary:", response);
-        console.log("File is uploaded on cloudinary !! This is response URL:", response.url);
+        // console.log("File is uploaded on cloudinary !! This is response URL:", response.url);
 
         fs.unlinkSync( localFilePath );
         return response;
@@ -47,7 +47,7 @@ const deleteImageOnCloudinary = async(publicId , resource_type="image") => {
             }
         );
 
-        console.log("Image Deleted successfully :", result);
+        // console.log("Image Deleted successfully :", result);
 
         return result ;
         
