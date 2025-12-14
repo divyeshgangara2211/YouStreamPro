@@ -152,7 +152,7 @@ Full API details with routes and sample requests can be found here:
 
 For questions, feedback, or collaboration inquiries:  
 📧 **Email:** [divyeshgangera22@gmail.com](mailto:divyeshgangera22@gmail.com)  
-🔗 **GitHub:** [github.com/divyeshgangera2211](https://github.com/divyeshgangara2211)
+💻 **GitHub:** [github.com/divyeshgangera2211](https://github.com/divyeshgangara2211)
 
 ---
 
