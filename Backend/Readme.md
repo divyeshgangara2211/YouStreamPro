@@ -135,7 +135,7 @@ View the system architecture and data model:
 ## 📚 API Documentation
 
 Full API details with routes and sample requests can be found here:  
-📄 [`docs/api.md`](./docs/api.md)
+📄 [`docs/api.md`](https://divyeshgangera.postman.co/workspace/Divyesh-Gangera's-Workspace~753ced6c-f8a3-4456-83d0-5aff0dc7059d/collection/46277832-1b363261-dbb4-4bcb-9918-405aaf62caa2?action=share&source=copy-link&creator=46277832)
 
 ### Includes Endpoints For:
 - 🔐 **User Authentication**
