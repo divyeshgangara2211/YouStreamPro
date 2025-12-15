@@ -135,7 +135,7 @@ View the system architecture and data model:
 ## 📚 API Documentation
 
 Full API details with routes and sample requests can be found here:  
-📄 [`docs/api.md`](./docs/api.md)
+📄 [Postman API Docs](https://documenter.getpostman.com/view/46277832/2sB3dTt8ah)
 
 ### Includes Endpoints For:
 - 🔐 **User Authentication**
